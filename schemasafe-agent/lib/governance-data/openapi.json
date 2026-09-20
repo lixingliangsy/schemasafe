@@ -1,0 +1,88 @@
+{
+  "version": "openapi@2026-07-24",
+  "standard": "OpenAPI Specification 3.1.0",
+  "source": "spec.openapis.org",
+  "scope": "openapi",
+  "entries": [
+    {
+      "id": "oas-31-align",
+      "title": "OpenAPI 3.1 fully aligns with JSON Schema 2020-12",
+      "body": "OpenAPI 3.1 adopts JSON Schema Draft 2020-12 as its schema vocabulary without modification; schemas are now directly validatable by standard validators (Ajv, jsonschema, networknt) with no translation layer.",
+      "ref": "https://openapispec.com/docs/how/how-does-openapi-3-1-align-with-json-schema",
+      "tags": ["openapi-3.1", "json-schema", "alignment"],
+      "verify": true
+    },
+    {
+      "id": "oas-nullable-removed",
+      "title": "nullable removed in favor of type arrays",
+      "body": "OpenAPI 3.1 removes the proprietary nullable:true keyword from 3.0. Use type: [\"string\",\"null\"] instead. Migration is a mechanical find/replace; leaving nullable:true in a 3.1 doc makes it invalid.",
+      "ref": "https://www.openapis.org/tag/migration",
+      "tags": ["nullable", "type-array", "migration"],
+      "verify": true
+    },
+    {
+      "id": "oas-exclusive-num",
+      "title": "exclusiveMinimum / exclusiveMaximum are numeric in 3.1",
+      "body": "OpenAPI 3.0 defined exclusiveMinimum/exclusiveMaximum as booleans modifying minimum/maximum. 3.1 restores the JSON Schema Draft 6+ meaning: numeric boundaries (exclusiveMinimum: 7).",
+      "ref": "https://www.openapis.org/tag/migration",
+      "tags": ["exclusiveMinimum", "exclusiveMaximum", "numbers"],
+      "verify": true
+    },
+    {
+      "id": "oas-discriminator",
+      "title": "discriminator enables polymorphism",
+      "body": "The OAS base vocabulary adds discriminator to the Schema Object for polymorphism: it selects which schema a payload satisfies via propertyName (and optional mapping). discriminator is not part of stock JSON Schema.",
+      "ref": "https://swagger.io/specification/",
+      "tags": ["discriminator", "polymorphism", "composition"],
+      "verify": true
+    },
+    {
+      "id": "oas-ref-siblings",
+      "title": "OpenAPI 3.0 $ref forbids siblings; 3.1 allows them",
+      "body": "OpenAPI 3.0 ignored sibling keywords next to $ref; JSON Schema (and 3.1) allows them. 3.1 aligning with JSON Schema means translation layers are no longer required for $ref.",
+      "ref": "https://swagger.io/specification/",
+      "tags": ["$ref", "siblings", "openapi-3.0"],
+      "verify": true
+    },
+    {
+      "id": "oas-json-schema-dialect",
+      "title": "jsonSchemaDialect sets the default $schema",
+      "body": "The OpenAPI root object has a jsonSchemaDialect field setting the default $schema for all schemas; individual Schema Objects may also declare $schema and $id as in JSON Schema.",
+      "ref": "https://spec.openapis.org/oas/v3.1.0",
+      "tags": ["jsonSchemaDialect", "$schema", "$id"],
+      "verify": true
+    },
+    {
+      "id": "oas-integer-type",
+      "title": "integer is a JSON number without fraction",
+      "body": "OpenAPI 3.1 data types are based on JSON Schema 2020-12; integer is defined as a JSON number without fraction or exponent. format: int32/int64 refine ranges but do not change the underlying JSON type.",
+      "ref": "https://spec.openapis.org/oas/v3.1.0",
+      "tags": ["integer", "format", "type"],
+      "verify": true
+    },
+    {
+      "id": "oas-examples",
+      "title": "example becomes examples in 3.1",
+      "body": "OpenAPI 3.1 replaces the singular schema-level example with the JSON Schema examples array. Media-type example(s) also move to examples. This is a mechanical migration from 3.0.",
+      "ref": "https://www.openapis.org/tag/migration",
+      "tags": ["examples", "example", "migration"],
+      "verify": true
+    },
+    {
+      "id": "oas-base-vocab",
+      "title": "OAS dialect adds a base vocabulary (discriminator, xml)",
+      "body": "The OAS Schema Object dialect (id https://spec.openapis.org/oas/3.1/dialect/base) requires the OAS base vocabulary on top of JSON Schema 2020-12 vocabularies; xml and discriminator are OAS-specific keywords.",
+      "ref": "https://swagger.io/specification/",
+      "tags": ["dialect", "base-vocabulary", "xml"],
+      "verify": true
+    },
+    {
+      "id": "oas-ref-object",
+      "title": "Reference Object resolves by URI",
+      "body": "The Reference Object's $ref is a URI (RFC 3986); relative references resolve per JSON Reference rules. A Schema Object $ref pointing to a non-OAS JSON Schema resource MUST follow JSON Schema rules for that resource.",
+      "ref": "https://spec.openapis.org/oas/v3.1.0",
+      "tags": ["$ref", "reference-object", "uri"],
+      "verify": true
+    }
+  ]
+}

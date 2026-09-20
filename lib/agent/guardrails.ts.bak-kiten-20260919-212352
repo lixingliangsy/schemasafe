@@ -1,0 +1,84 @@
+import type { KbEntry } from "./kb";
+
+export interface GuardrailContext {
+  citations: KbEntry[];
+  topScore: number;
+  userMessage: string;
+  answer: string;
+  complianceRelated: boolean;
+}
+
+export interface GuardrailResult {
+  escalate: boolean;
+  note: string;
+  violations: string[];
+  needsHumanReview: boolean;
+}
+
+const ESCALATE_USER_PHRASES: RegExp[] = [
+  /转人工/,
+  /人工(客服|服务|协助|支持)?/,
+  /投诉/,
+  /退款/,
+  /维权/,
+  /找(真?人|客服|销售)/,
+  /客服(电话|微信|联系方式)/,
+  /联系(销售|商务|人工)/,
+];
+
+const ABSOLUTE_PHRASES: RegExp[] = [
+  /\b(保证|一定|100%|绝对|肯定)\b.*(合规|通过|成功|解决|赔付|退款)/,
+  /(保证|确保|承诺).{0,12}(不违规|不被罚|零风险|无风险)/,
+  /\b我们(保证|承诺|确保)(你|您的)(账户|订阅|合规|数据)/,
+];
+
+const UNCERTAINTY_MARKER: RegExp =
+  /(不确定|无法(确定|确认|保证)|建议(你|您)?(咨询|联系|核实)|以.*(为准|为准)|需(要|人工|专业).{0,6}(复核|确认|顾问)|超出我的|我不(确定|清楚|确定))/;
+
+const COMPLIANCE_DISCLAIMER =
+  "（以上内容仅供参考，不构成法律 / 税务 / 专业意见，也不构成「合规认证」；正式决策前请结合首要法律文本并咨询合格顾问。）";
+
+const LOW_CONFIDENCE_THRESHOLD = 2;
+
+export function detectUserEscalation(message: string): boolean {
+  return ESCALATE_USER_PHRASES.some((re) => re.test(message || ""));
+}
+
+export function detectUncertainty(text: string): boolean {
+  return UNCERTAINTY_MARKER.test(text || "");
+}
+
+export function applyGuardrails(ctx: GuardrailContext): GuardrailResult {
+  const violations: string[] = [];
+  let escalate = false;
+
+  if (detectUserEscalation(ctx.userMessage)) {
+    escalate = true;
+    violations.push("H4_USER_ESCALATION");
+  }
+
+  if (ctx.topScore < LOW_CONFIDENCE_THRESHOLD && ctx.citations.length === 0) {
+    escalate = true;
+    violations.push("H1_LOW_CONFIDENCE");
+  }
+
+  for (const re of ABSOLUTE_PHRASES) {
+    if (re.test(ctx.answer)) {
+      violations.push("H2_ABSOLUTE_PROMISE");
+      escalate = true;
+    }
+  }
+
+  const needsHumanReview = detectUncertainty(ctx.answer);
+  if (needsHumanReview && ctx.citations.length === 0) {
+    escalate = true;
+    violations.push("H5_UNCERTAINTY");
+  }
+
+  let note = "";
+  if (ctx.complianceRelated) {
+    note = COMPLIANCE_DISCLAIMER;
+  }
+
+  return { escalate, note, violations, needsHumanReview };
+}

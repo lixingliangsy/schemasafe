@@ -1,0 +1,162 @@
+import type { KbEntry } from "../support-kit/types";
+export type { KbEntry };
+
+export const KB: KbEntry[] = [
+  {
+    id: "overview",
+    title: "What SchemaSafe does",
+    keywords: ["是什么", "介绍", "schemasafe", "做什么", "产品", "验证", "json", "schema", "校验"],
+    body:
+      "SchemaSafe is a JSON Schema validator for developers. Paste a JSON Schema (draft 2020-12) and a JSON instance and it checks them keyword by keyword, returning every error with a JSON-pointer path such as /users/0/email. It covers type, required, enum, const, format, numeric ranges, string length and pattern, arrays and the combining keywords. It is deterministic logic: no AI key needed, and it never scans a live or third-party site.",
+    source: "Product documentation / website",
+    tags: ["validator"],
+  },
+  {
+    id: "json-schema-2020-12",
+    title: "Supported JSON Schema keywords",
+    keywords: ["keyword", "关键字", "type", "required", "enum", "format", "2020-12", "draft"],
+    body:
+      "Structure and type: type, required, properties, additionalProperties, enum, const. Values and formats: minimum/maximum, exclusiveMinimum/exclusiveMaximum, multipleOf, minLength/maxLength, pattern, format (email/uri/date/date-time/uuid/hostname/ipv4/ipv6). Arrays: minItems/maxItems, uniqueItems, items, additionalItems. Combining: allOf/anyOf/oneOf/not. A $ref that cannot be resolved is reported explicitly as unresolved - it is never silently passed.",
+    source: "JSON Schema 2020-12 specification",
+    tags: ["validator"],
+  },
+  {
+    id: "path-errors",
+    title: "JSON-pointer error paths",
+    keywords: ["路径", "pointer", "json-pointer", "报错位置", "error path"],
+    body:
+      "Every validation error points at its exact location in the instance: /items/2/price means the price field of the third array element. That lets you map an error straight to a line of code instead of getting a vague invalid.",
+    source: "Product documentation / RFC 6901",
+    tags: ["validator"],
+  },
+  {
+    id: "use-cases",
+    title: "Where it fits",
+    keywords: ["场景", "用途", "api", "webhook", "config", "配置", "webhook", "ci", "契约"],
+    body:
+      "SchemaSafe suits validating JSON at a boundary: (1) API request and response bodies; (2) config files, so a broken JSON or YAML config fails early in CI; (3) third-party webhook payloads, rejecting data that drifts from the vendor contract; (4) a pre-merge CI check that fails the build on an invalid payload; (5) reusing an OpenAPI 3.1 components block as the validation schema.",
+    source: "Product documentation / OpenAPI 3.1",
+    tags: ["validator"],
+  },
+  {
+    id: "no-ai-deterministic",
+    title: "Deterministic validation, no AI",
+    keywords: ["ai", "openai", "key", "确定性", "deterministic", "账号", "本地"],
+    body:
+      "Validation is deterministic logic. It calls no large language model and needs no OpenAI key or account. The same input always produces the same output, so it is safe to put in CI. SchemaSafe is not a privacy or compliance scanner: it never fetches or scans a live URL, server or third-party site.",
+    source: "Product documentation / security notes",
+    tags: ["validator"],
+  },
+  {
+    id: "pricing",
+    title: "SchemaSafe pricing: Free / Pro / Team",
+    keywords: ["定价", "价格", "多少钱", "收费", "免费", "pro", "team", "套餐", "档位"],
+    body:
+      "Three tiers: Free ($0, unlimited validation in the browser, no credit card); Pro ($29/month or $290/year, saved schemas, API access, batch validation); Team ($79/month, shared schema library, CI checks, white-label). Payment is settled through Waffo Pancake as merchant of record.",
+    source: "Pricing page",
+    tags: [],
+  },
+  {
+    id: "honesty-disclaimer",
+    title: "Honesty guardrail - correctness is not guaranteed",
+    keywords: ["保证", "正确", "自动修复", "替代测试", "免责", "诚实"],
+    body:
+      "SchemaSafe only reports whether your data matches the schema you declared. Passing validation means the data matches your schema; it does not mean the schema itself is right for your business. It does not repair your data and it does not replace your tests. The final schema design is your responsibility.",
+    source: "Product documentation / honesty guardrail RG1",
+    tags: ["validator"],
+  },
+  {
+    id: "ai-support-scope",
+    title: "What the AI assistant can and cannot do",
+    keywords: ["客服", "机器人", "ai 客服", "智能体", "能回答", "边界", "限制"],
+    body:
+      "I am the AI support assistant for SchemaSafe. I answer common questions about JSON Schema validation, keywords, pricing, accounts and API access, and I hand off to a human when needed. I cannot replace your tests and I will not claim to guarantee correctness or to repair your data; on any conclusive-sounding point I will say that we only report whether the data matches the schema you declared.",
+    source: "Product documentation / AI support",
+    tags: [],
+  },
+  {
+    id: "account-login",
+    title: "Sign-in and account questions",
+    keywords: ["登录", "登入", "账号", "账户", "注册", "密码", "忘记密码", "无法登录"],
+    body:
+      "The Free tier needs no account at all - validation runs in the browser. Pro and Team sign in with an email address and receive a session. To reset a password or if you cannot sign in, use the Contact us / talk to a human entry point and the team will verify your identity first. For security reasons we never ask for or reset a password inside the chat.",
+    source: "Product documentation / account",
+    tags: [],
+  },
+  {
+    id: "how-to",
+    title: "Running your first validation",
+    keywords: ["校验", "怎么做", "步骤", "使用", "教程", "首次", "上手"],
+    body:
+      "Steps: (1) paste your schema into the JSON Schema box on the home page (or /app); (2) paste the JSON you want to check into the JSON instance box; (3) click Validate; (4) within seconds you get a report listing every error with its JSON-pointer path and a valid or invalid verdict; (5) on Pro you can save schemas and validate in batches over the API.",
+    source: "Product documentation / getting started",
+    tags: ["validator"],
+  },
+  {
+    id: "contact-human",
+    title: "Contact us / talk to a human",
+    keywords: ["联系", "人工", "转人工", "投诉", "退款", "维权", "销售", "真人", "客服电话", "找人"],
+    body:
+      "For human help (account issues, refunds, partnerships or policy questions) just say talk to a human and leave your email, or send the details from the feedback page.",
+    source: "Product documentation / support",
+    tags: [],
+  },
+  {
+    id: "limitations",
+    title: "Limits of the validator",
+    keywords: ["局限", "限制", "accuracy", "准确", "覆盖率", "ref", "递归"],
+    body:
+      "SchemaSafe targets a keyword subset of JSON Schema 2020-12. Three things to keep in mind: (1) a cross-file or remote $ref is currently reported as unresolved and never silently passed; (2) passing validation only means the data matches the schema you wrote, not that the schema itself is well designed; (3) very deep recursive schemas may hit a depth limit. Treat validation as an aid to CI and pull-request review, alongside tests built from real payloads.",
+    source: "Product documentation / technical notes",
+    tags: ["validator"],
+  },
+];
+
+function normalize(s: string): string {
+  return (s || "").toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ");
+}
+function toWords(s: string): string[] {
+  return normalize(s).split(/\s+/).map((w) => w.trim()).filter(Boolean);
+}
+function cjkBigrams(s: string): string[] {
+  const grams: string[] = [];
+  for (const w of toWords(s)) {
+    if (/[\u4e00-\u9fff]/.test(w) && w.length >= 2) {
+      for (let i = 0; i < w.length - 1; i++) grams.push(w.slice(i, i + 2));
+    }
+  }
+  return grams;
+}
+function scoreEntry(entry: KbEntry, query: string): number {
+  const q = normalize(query);
+  const qWords = new Set(toWords(q));
+  const qGrams = new Set(cjkBigrams(q));
+  let score = 0;
+  for (const kw of entry.keywords) {
+    const k = kw.toLowerCase();
+    if (q.includes(k)) score += 3;
+  }
+  for (const tw of toWords(entry.title)) {
+    if (qWords.has(tw)) score += 2;
+  }
+  const idx = normalize((entry.keywords.join(" ") + " " + entry.title + " " + entry.body.slice(0, 400)));
+  for (const g of qGrams) if (idx.includes(g)) score += 0.5;
+  return score;
+}
+
+export interface RetrieveResult {
+  entries: KbEntry[];
+  topScore: number;
+}
+
+export function retrieve(query: string, topK = 4, entries: KbEntry[] = KB): RetrieveResult {
+  const scored = entries.map((e) => ({ e, s: scoreEntry(e, query) }))
+    .filter((x) => x.s > 0)
+    .sort((a, b) => b.s - a.s)
+    .slice(0, topK);
+  return { entries: scored.map((x) => x.e), topScore: scored.length ? scored[0].s : 0 };
+}
+
+export function isComplianceRelated(entries: KbEntry[]): boolean {
+  return entries.some((e) => e.tags.includes("compliance"));
+}

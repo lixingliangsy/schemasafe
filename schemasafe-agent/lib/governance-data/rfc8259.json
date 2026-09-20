@@ -1,0 +1,88 @@
+{
+  "version": "rfc8259@2026-07-24",
+  "standard": "RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format",
+  "source": "IETF RFC 8259",
+  "scope": "rfc8259",
+  "entries": [
+    {
+      "id": "rfc-top-level",
+      "title": "RFC 8259 allows any JSON value at the top level",
+      "body": "Unlike RFC 4627, RFC 8259 permits any JSON value (object, array, number, string, true, false, null) as the top-level document. Parsers that only accept objects/arrays are non-compliant with RFC 8259.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["top-level", "values", "grammar"],
+      "verify": true
+    },
+    {
+      "id": "rfc-duplicate-keys",
+      "title": "Object member names SHOULD be unique",
+      "body": "RFC 8259 says names within an object SHOULD be unique. Duplicate keys are technically valid JSON but behavior is implementation-defined (most parsers keep the last; some error). Never emit duplicate keys in production payloads.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["duplicate-keys", "objects", "interop"],
+      "verify": true
+    },
+    {
+      "id": "rfc-numbers",
+      "title": "JSON has no integer/float distinction; no NaN or Infinity",
+      "body": "RFC 8259 numbers are decimal digit sequences with no required fraction/exponent; there is no separate integer type. NaN and Infinity are NOT valid JSON numbers. JavaScript Number precision is limited to 2^53-1 safe integers.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["numbers", "precision", "nan", "infinity"],
+      "verify": true
+    },
+    {
+      "id": "rfc-no-comments",
+      "title": "The JSON grammar has no comments",
+      "body": "RFC 8259 defines no comment production. // and /* */ are parse errors in strict JSON. Adding comments requires a non-standard preprocessing step before parsing.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["comments", "grammar"],
+      "verify": true
+    },
+    {
+      "id": "rfc-whitespace",
+      "title": "Insignificant whitespace is space, tab, LF, CR",
+      "body": "Whitespace allowed between tokens: space (0x20), horizontal tab (0x09), line feed (0x0A), carriage return (0x0D). A literal newline inside a string must be escaped as \\n, not left raw.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["whitespace", "strings", "escaping"],
+      "verify": true
+    },
+    {
+      "id": "rfc-unicode-escape",
+      "title": "Strings use \\uXXXX escapes for control and surrogate pairs",
+      "body": "RFC 8259 strings are Unicode code points; control characters must be escaped. A literal newline inside a string is invalid—use \\n. Surrogate pairs encode astral characters; lone surrogates are ill-formed.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["unicode", "escape", "strings"],
+      "verify": true
+    },
+    {
+      "id": "rfc-literals",
+      "title": "Only false, null, true literals (lowercase)",
+      "body": "RFC 8259 defines exactly three literals: false, null, true, all lowercase. TRUE, False, NULL, None, and undefined are NOT valid JSON and must be rejected by conforming parsers.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["literals", "null", "boolean"],
+      "verify": true
+    },
+    {
+      "id": "rfc-leading-zero",
+      "title": "Leading zeros are not allowed in numbers",
+      "body": "RFC 8259 forbids leading zeros in numbers (e.g. 01). The integer part must start with a non-zero digit (1-9) or be a single 0. Values like 1.0 and 0.5 are valid; 01 is not.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["numbers", "leading-zero"],
+      "verify": true
+    },
+    {
+      "id": "rfc-obsoletes",
+      "title": "RFC 8259 obsoletes RFC 7159 and RFC 4627",
+      "body": "RFC 8259 (Dec 2017) obsoletes RFC 7159 and RFC 4627. ECMA-404 defines the same grammar via a different formalism; discrepancies between them are tracked jointly by IETF and ECMA.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["obsoletes", "ecma-404", "standards-track"],
+      "verify": true
+    },
+    {
+      "id": "rfc-array-types",
+      "title": "Array element types need not be uniform",
+      "body": "RFC 8259 imposes no requirement that array elements share a type. Heterogeneous arrays are valid JSON; schema validation (not the grammar) enforces homogeneity when needed.",
+      "ref": "https://www.rfc-editor.org/rfc/rfc8259",
+      "tags": ["arrays", "heterogeneous", "types"],
+      "verify": true
+    }
+  ]
+}

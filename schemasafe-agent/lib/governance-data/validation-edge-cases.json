@@ -1,0 +1,88 @@
+{
+  "version": "edgecases@2026-07-24",
+  "standard": "JSON Schema validation edge cases (cross-cutting)",
+  "source": "Schemasafe curated corpus",
+  "scope": "edgecases",
+  "entries": [
+    {
+      "id": "edge-integer-overflow",
+      "title": "Large IDs overflow JS safe integers",
+      "body": "JSON numbers beyond 2^53-1 lose precision in JavaScript. Return large DB/order IDs as strings (e.g. Twitter id_str). Schemas should use type:'string' with a pattern for such identifiers to stay exact.",
+      "ref": "https://theproductguy.in/blogs/data-format-standards",
+      "tags": ["integer", "overflow", "precision"],
+      "verify": true
+    },
+    {
+      "id": "edge-additional-vs-unevaluated",
+      "title": "additionalProperties misses composed branches",
+      "body": "additionalProperties:false only sees directly-declared properties, not those contributed by allOf/anyOf/oneOf. Use unevaluatedProperties:false for strict closed objects when using composition.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/object.html",
+      "tags": ["additionalProperties", "unevaluatedProperties", "composition"],
+      "verify": true
+    },
+    {
+      "id": "edge-float-equality",
+      "title": "multipleOf has floating-point equality pitfalls",
+      "body": "multipleOf comparison uses floating-point math; edge cases like 0.1/0.3 can fail unexpectedly. Prefer integer-scaled values or tolerant epsilon checks where exact division matters.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/numeric.html",
+      "tags": ["multipleOf", "float", "precision"],
+      "verify": true
+    },
+    {
+      "id": "edge-email-format",
+      "title": "format:'email' is assertion-only when enabled",
+      "body": "Without ajv-formats / validateFormats, format:'email' is annotation-only and passes any string. Always enable format assertion for user-input validation to actually reject bad emails.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["format", "email", "assertion"],
+      "verify": true
+    },
+    {
+      "id": "edge-nullable-draft-mismatch",
+      "title": "nullable:true is only valid in OpenAPI 3.0 / draft-04",
+      "body": "nullable:true is an OpenAPI 3.0 / draft-04 concept and is invalid in JSON Schema 2020-12 or OpenAPI 3.1. Migrate to type:[...,'null'] to avoid silent validation gaps and broken schemas.",
+      "ref": "https://www.openapis.org/tag/migration",
+      "tags": ["nullable", "draft-04", "migration"],
+      "verify": true
+    },
+    {
+      "id": "edge-date-time-format",
+      "title": "date-time must be RFC 3339",
+      "body": "format:'date-time' expects RFC 3339 (e.g. 2024-01-01T00:00:00Z). Values like 2024/01/01 or 25:00:00 fail in full validation mode. Keep format assertion enabled to enforce it.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["date-time", "rfc3339", "format"],
+      "verify": true
+    },
+    {
+      "id": "edge-required-vs-if",
+      "title": "if/then/else can make required conditional",
+      "body": "Use if/then/else to apply required only when a condition holds (e.g. require 'card' when 'type'=='credit'). Misuse of allOf + oneOf can produce confusing multi-error output for callers.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/conditionals.html",
+      "tags": ["if-then-else", "required", "conditional"],
+      "verify": true
+    },
+    {
+      "id": "edge-pattern-regex",
+      "title": "pattern regex is ECMA-262; watch for backtracking",
+      "body": "pattern uses ECMA-262 regex semantics. Nested quantifiers on adversarial input can cause catastrophic backtracking (ReDoS). Anchor patterns and keep them simple to avoid denial-of-service.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/regular_expressions.html",
+      "tags": ["pattern", "regex", "redos"],
+      "verify": true
+    },
+    {
+      "id": "edge-enum-deep-equal",
+      "title": "enum matches by deep equality, order-independent",
+      "body": "enum membership is by deep equality and order-independent; a single-element enum equals const. Complex nested enum values are valid but costly to compare at scale, so prefer flat enums.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/generic.html",
+      "tags": ["enum", "const", "deep-equal"],
+      "verify": true
+    },
+    {
+      "id": "edge-ref-resolution",
+      "title": "$ref resolution depends on $id base and loader",
+      "body": "Remote $ref requires the referenced schema to be added (addSchema/loadSchema) or fetched. Missing refs throw at compile time; circular refs are supported when properly $id-anchored.",
+      "ref": "https://ajv.js.org/",
+      "tags": ["$ref", "resolution", "loadSchema"],
+      "verify": true
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "version": "jsonschema@2026-07-24",
+  "standard": "JSON Schema Draft 2020-12 (W3C Community / json-schema.org)",
+  "source": "json-schema.org",
+  "scope": "jsonschema",
+  "entries": [
+    {
+      "id": "js-2020-12-overview",
+      "title": "JSON Schema 2020-12 vocabulary system",
+      "body": "Draft 2020-12 replaces the single meta-schema with a vocabulary system: Core, Applicator, Validation, Annotation, Format, Content, and Unevaluated vocabularies, declared via $vocabulary. A custom dialect can extend or restrict the standard keyword set.",
+      "ref": "https://json-schema.org/draft/2020-12/release-notes.html",
+      "tags": ["vocabulary", "$vocabulary", "draft-2020-12"],
+      "verify": true
+    },
+    {
+      "id": "js-dynamicref",
+      "title": "$dynamicRef and $dynamicAnchor replace $recursiveRef",
+      "body": "2020-12 replaces $recursiveRef/$recursiveAnchor with $dynamicRef/$dynamicAnchor, enabling extensible recursive schemas where a consuming schema can override a $dynamicAnchor extension point at runtime rather than at authoring time.",
+      "ref": "https://json-schema.org/draft/2020-12/release-notes.html",
+      "tags": ["$dynamicRef", "$dynamicAnchor", "recursion"],
+      "verify": true
+    },
+    {
+      "id": "js-prefixitems",
+      "title": "items / prefixItems restructure for tuples",
+      "body": "In 2020-12, items is a single schema for additional items; prefixItems is the array of positional schemas (the old positional items). The old additionalItems keyword is gone; use items:false for a closed tuple.",
+      "ref": "https://json-schema.org/draft/2020-12/release-notes.html",
+      "tags": ["prefixItems", "items", "tuple"],
+      "verify": true
+    },
+    {
+      "id": "js-unevaluated",
+      "title": "unevaluatedProperties / unevaluatedItems see across branches",
+      "body": "Unlike additionalProperties, unevaluatedProperties and unevaluatedItems are aware of properties/items evaluated by sibling allOf/anyOf/oneOf/if-then-else branches, enabling strict closed-object schemas in composition without losing inherited properties.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/object.html",
+      "tags": ["unevaluatedProperties", "unevaluatedItems", "composition"],
+      "verify": true
+    },
+    {
+      "id": "js-ref",
+      "title": "$ref static referencing and $id base",
+      "body": "$ref resolves a statically identified schema; $id sets the base URI for resolving relative references. $ref may carry sibling keywords in 2020-12 (OpenAPI 3.0 forbade siblings). Remote refs must be registered (addSchema/loadSchema).",
+      "ref": "https://www.learnjsonschema.com/2020-12/core/",
+      "tags": ["$ref", "$id", "reference"],
+      "verify": true
+    },
+    {
+      "id": "js-if-then-else",
+      "title": "if / then / else conditional schemas",
+      "body": "The if subschema is evaluated; if it validates, then applies, otherwise else applies. Useful for dependent requirements (e.g. require 'card' only when 'type'=='credit') without nested allOf/oneOf chains.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/conditionals.html",
+      "tags": ["if", "then", "else", "conditional"],
+      "verify": true
+    },
+    {
+      "id": "js-allof-anyof-oneof",
+      "title": "allOf / anyOf / oneOf composition semantics",
+      "body": "allOf requires every subschema pass; anyOf requires at least one; oneOf requires exactly one. With multiple non-null types in `type`, strict validators (Ajv) may require allowUnionTypes to avoid warnings.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/combining.html",
+      "tags": ["allOf", "anyOf", "oneOf", "composition"],
+      "verify": true
+    },
+    {
+      "id": "js-format",
+      "title": "format is an annotation, not an assertion by default",
+      "body": "The format keyword is annotation-only by default per the JSON Schema spec. Validators like Ajv require opt-in (validateFormats / ajv-formats) to actually assert formats such as email, date-time, and uri.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/string.html",
+      "tags": ["format", "annotation", "email"],
+      "verify": true
+    },
+    {
+      "id": "js-type-array",
+      "title": "type can be an array of types",
+      "body": "type accepts an array of type names, e.g. [\"string\",\"null\"], to express nullable values. This is the JSON Schema-native approach; OpenAPI 3.1 dropped the proprietary nullable:true in favor of this.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/type.html",
+      "tags": ["type", "nullable", "array"],
+      "verify": true
+    },
+    {
+      "id": "js-const-enum",
+      "title": "const vs enum single value",
+      "body": "const restricts a value to exactly one; enum restricts to a fixed set. A single-element enum is equivalent to const. enum matches by deep equality and is order-independent.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/generic.html",
+      "tags": ["const", "enum", "deep-equal"],
+      "verify": true
+    },
+    {
+      "id": "js-required",
+      "title": "required is an array of property names",
+      "body": "required lists property names that must be present. In strict mode some validators warn if required properties are not declared in properties. Related: dependentRequired and dependentSchemas.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/object.html",
+      "tags": ["required", "dependentRequired", "properties"],
+      "verify": true
+    },
+    {
+      "id": "js-pattern",
+      "title": "pattern uses ECMA-262 regular expressions",
+      "body": "pattern validates a string against an ECMA-262 regex. patternProperties maps regex to subschemas for object keys. Beware catastrophic backtracking (ReDoS) and unicode flag behavior on adversarial input.",
+      "ref": "https://json-schema.org/understanding-json-schema/reference/regular_expressions.html",
+      "tags": ["pattern", "patternProperties", "regex"],
+      "verify": true
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+export const FEEDBACK_CATEGORIES = ["功能建议", "Bug 反馈", "合规咨询", "账单/订阅", "其他"];

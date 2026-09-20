@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# LLM / AI answer-engine indexing
+LLM-Content: https://schemasafe.lxsaihub.com/llms.txt
+
+Sitemap: https://schemasafe.lxsaihub.com/sitemap.xml

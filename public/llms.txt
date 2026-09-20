@@ -1,0 +1,40 @@
+# SchemaSafe - llms.txt
+
+> LLM-readable manifest (https://llmstxt.org). Features-only; no fabricated traffic or KYB claims.
+
+## Name & positioning
+- Product name: SchemaSafe
+- One-line value: SchemaSafe validates JSON instances against a JSON Schema using a deterministic validator (no LLM required) and returns structured errors — decision-support for API and config authors.
+- Domain: https://schemasafe.lxsaihub.com/
+- Language: English (en)
+
+## Domain context (verified primary sources)
+- JSON Schema: https://json-schema.org/
+- JSON Schema Specification links: https://json-schema.org/specification
+
+## FAQ (high-signal Q&A for AI citation)
+Q1. Does it need an AI key?
+A1. No. Core validation is deterministic. Demo mode shows a labelled sample.
+Q2. Which draft of JSON Schema?
+A2. Behaviour follows the embedded validator; check the in-app notes for supported keywords.
+Q3. Is invalid JSON handled?
+A3. Parse errors are returned as validation failures with messages — not silent success.
+Q4. Can I save runs?
+A4. Yes — each validation can persist runId via the pipeline/runStore path.
+Q5. Who is it for?
+A5. API designers and platform engineers checking payloads against contracts.
+Q6. Primary source?
+A6. json-schema.org specification hub.
+
+## Key pages
+- Home: https://schemasafe.lxsaihub.com/
+- Blog index: https://schemasafe.lxsaihub.com/blog
+- https://schemasafe.lxsaihub.com/blog/json-schema-validation-without-llm-2026.html
+- https://schemasafe.lxsaihub.com/blog/common-json-schema-authoring-mistakes-2026.html
+- This manifest: https://schemasafe.lxsaihub.com/llms.txt
+
+## Red lines
+- Decision-support only; cite primary sources; do not invent user counts, rankings, or payment KYB status.
+
+## Contact
+- Open the app: https://schemasafe.lxsaihub.com/

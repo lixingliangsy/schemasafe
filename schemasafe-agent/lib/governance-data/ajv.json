@@ -1,0 +1,88 @@
+{
+  "version": "ajv@2026-07-24",
+  "standard": "Ajv JSON Schema validator (v8)",
+  "source": "ajv.js.org",
+  "scope": "ajv",
+  "entries": [
+    {
+      "id": "ajv-strict-mode",
+      "title": "Ajv strict mode throws on unknown keywords",
+      "body": "By default Ajv runs in strict mode: unknown keywords throw at compile time (or log with strict:'log'). Disabling via strict:false silently ignores mistakes—avoid for production schemas where typos would otherwise fail open.",
+      "ref": "https://ajv.js.org/strict-mode.html",
+      "tags": ["strict-mode", "unknown-keywords", "compile"],
+      "verify": true
+    },
+    {
+      "id": "ajv-compile-cache",
+      "title": "Ajv compiles and caches schemas by stable string",
+      "body": "Ajv compiles schemas to optimized JS functions and caches them by the JSON-stable-stringified key. Reuse the compiled validate function (compile/getSchema) for best performance; the errors array is overwritten on each call.",
+      "ref": "https://ajv.js.org/",
+      "tags": ["compile", "cache", "performance"],
+      "verify": true
+    },
+    {
+      "id": "ajv-data-ref",
+      "title": "$data references read values from the instance",
+      "body": "Ajv's $data option enables $data references so a keyword's value is taken from the data being validated. It requires the Draft 6 meta-schema extension; with another meta-schema use $dataMetaSchema to add support.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["$data", "reference", "meta-schema"],
+      "verify": true
+    },
+    {
+      "id": "ajv-strict-numbers",
+      "title": "strictNumbers rejects NaN and Infinity",
+      "body": "With strictNumbers:true (default), Ajv fails validation if NaN or Infinity is supplied where a number is expected. Disabling allows them but diverges from safe JSON number handling and RFC 8259.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["strictNumbers", "nan", "infinity"],
+      "verify": true
+    },
+    {
+      "id": "ajv-formats",
+      "title": "formats require ajv-formats opt-in",
+      "body": "Ajv does not assert format by default. Install ajv-formats and enable via addFormats or validateFormats:true. Unknown formats throw at compile time in strict mode.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["formats", "ajv-formats", "email"],
+      "verify": true
+    },
+    {
+      "id": "ajv-unevaluated",
+      "title": "Ajv fully supports unevaluatedProperties / Items",
+      "body": "Ajv implements unevaluatedProperties and unevaluatedItems (2020-12), correctly considering allOf/anyOf/oneOf branches. This enables strict closed-object validation that additionalProperties alone cannot provide.",
+      "ref": "https://ajv.js.org/",
+      "tags": ["unevaluatedProperties", "unevaluatedItems", "2020-12"],
+      "verify": true
+    },
+    {
+      "id": "ajv-coerce-types",
+      "title": "coerceTypes can mutate validated data",
+      "body": "coerceTypes:true attempts to coerce data to the schema type (e.g. '123' to 123). It modifies the data in place—use with care, because it changes the input payload the caller holds.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["coerceTypes", "data-mutation"],
+      "verify": true
+    },
+    {
+      "id": "ajv-use-defaults",
+      "title": "useDefaults assigns missing properties",
+      "body": "With useDefaults:true, Ajv assigns default values to missing properties/items during validation, mutating the data. Strict mode fails compilation for certain ignored-default cases.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["useDefaults", "defaults", "mutation"],
+      "verify": true
+    },
+    {
+      "id": "ajv-allow-union-types",
+      "title": "allowUnionTypes for multiple types in `type`",
+      "body": "Ajv's strictTypes warns/throws when `type` lists multiple non-null types (e.g. [\"string\",\"null\"]). Set allowUnionTypes:true to permit it intentionally—common in OpenAPI 3.1 nullable patterns.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["allowUnionTypes", "type", "strictTypes"],
+      "verify": true
+    },
+    {
+      "id": "ajv-all-errors",
+      "title": "allErrors collects every validation error",
+      "body": "By default Ajv returns after the first error. Set allErrors:true to collect all errors (slower compile, more diagnostics). Copy the errors array reference if used asynchronously, as it is overwritten each call.",
+      "ref": "https://ajv.js.org/options.html",
+      "tags": ["allErrors", "errors", "reporting"],
+      "verify": true
+    }
+  ]
+}

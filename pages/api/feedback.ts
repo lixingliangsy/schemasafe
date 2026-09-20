@@ -1,0 +1,49 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import { submitFeedback, dispatchEmail } from "../../lib/feedback";
+import { SUPPORT } from "../../lib/support.config";
+import fs from "fs";
+import path from "path";
+import { PRODUCT } from "../../lib/product";
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
+  const body = (req.body || {}) as any;
+
+  if (body.category && body.body) {
+    try {
+      const fb = submitFeedback({
+        category: body.category,
+        body: body.body,
+        email: body.email,
+        attachment: body.attachment,
+      });
+
+      void dispatchEmail(fb, {
+        to: SUPPORT.feedbackEmail,
+        subjectPrefix: `[${SUPPORT.productName} feedback]`,
+      }).catch(() => {});
+
+      return res.status(200).json({
+        ok: true,
+        id: fb.id,
+        message: "Feedback submitted - we will look into it shortly.",
+      });
+    } catch (e: any) {
+      const code = e?.message || "UNKNOWN";
+      return res.status(400).json({ error: code });
+    }
+  }
+
+  const slug = String((PRODUCT as any).slug || "product");
+  const dir = path.join(process.cwd(), ".data", "feedback");
+  try { if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true }); } catch (e) { /* read-only FS (serverless): best effort */ }
+  const row = {
+    ts: new Date().toISOString(),
+    runId: String(body.runId || ""),
+    thumbs: body.thumbs || null,
+    correction: String(body.correction || "").slice(0, 2000),
+  };
+  try { fs.appendFileSync(path.join(dir, `${slug}.jsonl`), JSON.stringify(row) + "\n", "utf8"); } catch (e) { /* read-only FS (serverless): best effort */ }
+  return res.status(200).json({ ok: true });
+}

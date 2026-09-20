@@ -1,0 +1,162 @@
+import type { KbEntry } from "../support-kit/types";
+export type { KbEntry };
+
+export const KB: KbEntry[] = [
+  {
+    id: "overview",
+    title: "SchemaSafe 是什么",
+    keywords: ["是什么", "介绍", "schemasafe", "做什么", "产品", "验证", "json", "schema", "校验"],
+    body:
+      "SchemaSafe 是一个 JSON Schema 校验工具（面向开发者）：你粘贴一段 JSON Schema（draft 2020-12）和一段 JSON 实例，工具逐条检查并返回每个错误，且每条错误都带有 JSON-pointer 路径（如 /users/0/email）。覆盖 type、required、enum、const、format、数值范围、字符串长度/pattern、数组与组合关键字。它是确定性逻辑，不需要 AI key，也不扫描任何线上网站或第三方站点。",
+    source: "产品文档 / 官网",
+    tags: ["validator"],
+  },
+  {
+    id: "json-schema-2020-12",
+    title: "支持的 JSON Schema 关键字",
+    keywords: ["keyword", "关键字", "type", "required", "enum", "format", "2020-12", "draft"],
+    body:
+      "结构/类型：type、required、properties、additionalProperties、enum、const。值/格式：minimum/maximum、exclusiveMinimum/exclusiveMaximum、multipleOf、minLength/maxLength、pattern、format（email/uri/date/date-time/uuid/hostname/ipv4/ipv6）。数组：minItems/maxItems、uniqueItems、items、additionalItems。组合：allOf/anyOf/oneOf/not；$ref 若无法解析会明确报告为「未解析」，绝不会静默通过。",
+    source: "JSON Schema 2020-12 规范",
+    tags: ["validator"],
+  },
+  {
+    id: "path-errors",
+    title: "JSON-pointer 错误路径",
+    keywords: ["路径", "pointer", "json-pointer", "报错位置", "error path"],
+    body:
+      "每一条校验错误都会指向它在实例中的确切位置，例如 /items/2/price 表示第 3 个数组元素的 price 字段。这样你可以直接把错误映射到代码中的某一行，而不是得到一个笼统的「invalid」。",
+    source: "产品文档 / RFC 6901",
+    tags: ["validator"],
+  },
+  {
+    id: "use-cases",
+    title: "适用场景",
+    keywords: ["场景", "用途", "api", "webhook", "config", "配置", "webhook", "ci", "契约"],
+    body:
+      "SchemaSafe 适合在边界处校验 JSON：① API 请求/响应体；② 配置文件（JSON/YAML 配置在 CI 中尽早失败）；③ 第三方 Webhook 回调体（供应商字段漂移时拒绝不匹配的数据）；④ 预合并 CI 检查（让非法 payload 在构建阶段失败）；⑤ 复用 OpenAPI 3.1 的 components 作为校验 schema。",
+    source: "产品文档 / OpenAPI 3.1",
+    tags: ["validator"],
+  },
+  {
+    id: "no-ai-deterministic",
+    title: "确定性校验，无需 AI",
+    keywords: ["ai", "openai", "key", "确定性", "deterministic", "账号", "本地"],
+    body:
+      "校验是确定性逻辑，不调用任何大模型，也不需要 OpenAI key 或注册账户。相同的输入始终得到相同的输出，因此可放心放进 CI。SchemaSafe 不是隐私/合规扫描器，不会抓取或扫描任何线上 URL、服务器或第三方站点。",
+    source: "产品文档 / 安全说明",
+    tags: ["validator"],
+  },
+  {
+    id: "pricing",
+    title: "SchemaSafe 定价：Free / Pro / Team",
+    keywords: ["定价", "价格", "多少钱", "收费", "免费", "pro", "team", "套餐", "档位"],
+    body:
+      "三档：Free（$0，浏览器内无限次校验，无需信用卡）；Pro（$29/月，或 $290/年，含保存的 schema、API 访问、批量校验）；Team（$79/月，含共享 schema 库、CI 检查、白标）。支付通过 Waffo Pancake（商户代行）结算。",
+    source: "官网定价页",
+    tags: [],
+  },
+  {
+    id: "honesty-disclaimer",
+    title: "诚实护栏 / 不保证正确",
+    keywords: ["保证", "正确", "自动修复", "替代测试", "免责", "诚实"],
+    body:
+      "SchemaSafe 只报告你的数据是否符合「你声明的 schema」。通过校验仅表示数据匹配你写的 schema，并不表示 schema 本身对你的业务「正确」；它也不会自动修复数据，也不能替代你的测试。最终的 schema 设计由你负责。",
+    source: "产品文档 / 诚实护栏 RG1",
+    tags: ["validator"],
+  },
+  {
+    id: "ai-support-scope",
+    title: "AI 客服能做什么 / 不能做什么",
+    keywords: ["客服", "机器人", "ai 客服", "智能体", "能回答", "边界", "限制"],
+    body:
+      "我是 SchemaSafe 的 AI 客服助手，基于产品知识库回答关于 JSON Schema 校验、关键字、定价、账户、API 接入的常见问题，并在需要时为你转接人工。我无法替代你的测试，也不会声称「保证正确」或「自动修复」数据；涉及结论类表述我会说明：我们只报告是否符合你声明的 schema。",
+    source: "产品文档 / AI 客服",
+    tags: [],
+  },
+  {
+    id: "account-login",
+    title: "登录 / 账户问题",
+    keywords: ["登录", "登入", "账号", "账户", "注册", "密码", "忘记密码", "无法登录"],
+    body:
+      "Free 档无需账户即可在浏览器内校验。Pro/Team 使用邮箱登录并签发会话；忘记密码或无法登录请在「联系我们 / 转人工」入口提交，团队会协助核实身份后处理。出于安全考虑，我们不会在聊天中直接索要或重置密码。",
+    source: "产品文档 / 账户",
+    tags: [],
+  },
+  {
+    id: "how-to",
+    title: "如何完成第一次校验",
+    keywords: ["校验", "怎么做", "步骤", "使用", "教程", "首次", "上手"],
+    body:
+      "使用步骤：① 在首页（或 /app）的「JSON Schema」文本框粘贴你的 schema；② 在「JSON instance」文本框粘贴要校验的 JSON；③ 点击「Validate」；④ 几秒内生成校验报告，列出每个错误及其 JSON-pointer 路径与有效/无效结论；⑤ Pro 可保存 schema 并通过 API 批量校验。",
+    source: "产品文档 / 上手指南",
+    tags: ["validator"],
+  },
+  {
+    id: "contact-human",
+    title: "联系我们 / 转人工",
+    keywords: ["联系", "人工", "转人工", "投诉", "退款", "维权", "销售", "真人", "客服电话", "找人"],
+    body:
+      "需要人工协助（账户异常、退款、商务合作或政策咨询）请告诉我「转人工」并留下邮箱；也可在反馈页提交详细诉求。",
+    source: "产品文档 / 支持",
+    tags: [],
+  },
+  {
+    id: "limitations",
+    title: "校验工具的局限性",
+    keywords: ["局限", "限制", "accuracy", "准确", "覆盖率", "ref", "递归"],
+    body:
+      "SchemaSafe 目标为 JSON Schema 2020-12 的关键字子集。以下情况请注意：① $ref 跨文件/远程引用暂按「未解析」报告，不会静默通过；② 通过校验只表示符合你写的 schema，不代表 schema 设计正确；③ 复杂递归 schema 的深度可能受限。建议把校验作为 CI 与 PR 审查的辅助手段，并结合真实用例测试。",
+    source: "产品文档 / 技术说明",
+    tags: ["validator"],
+  },
+];
+
+function normalize(s: string): string {
+  return (s || "").toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ");
+}
+function toWords(s: string): string[] {
+  return normalize(s).split(/\s+/).map((w) => w.trim()).filter(Boolean);
+}
+function cjkBigrams(s: string): string[] {
+  const grams: string[] = [];
+  for (const w of toWords(s)) {
+    if (/[\u4e00-\u9fff]/.test(w) && w.length >= 2) {
+      for (let i = 0; i < w.length - 1; i++) grams.push(w.slice(i, i + 2));
+    }
+  }
+  return grams;
+}
+function scoreEntry(entry: KbEntry, query: string): number {
+  const q = normalize(query);
+  const qWords = new Set(toWords(q));
+  const qGrams = new Set(cjkBigrams(q));
+  let score = 0;
+  for (const kw of entry.keywords) {
+    const k = kw.toLowerCase();
+    if (q.includes(k)) score += 3;
+  }
+  for (const tw of toWords(entry.title)) {
+    if (qWords.has(tw)) score += 2;
+  }
+  const idx = normalize((entry.keywords.join(" ") + " " + entry.title + " " + entry.body.slice(0, 400)));
+  for (const g of qGrams) if (idx.includes(g)) score += 0.5;
+  return score;
+}
+
+export interface RetrieveResult {
+  entries: KbEntry[];
+  topScore: number;
+}
+
+export function retrieve(query: string, topK = 4, entries: KbEntry[] = KB): RetrieveResult {
+  const scored = entries.map((e) => ({ e, s: scoreEntry(e, query) }))
+    .filter((x) => x.s > 0)
+    .sort((a, b) => b.s - a.s)
+    .slice(0, topK);
+  return { entries: scored.map((x) => x.e), topScore: scored.length ? scored[0].s : 0 };
+}
+
+export function isComplianceRelated(entries: KbEntry[]): boolean {
+  return entries.some((e) => e.tags.includes("compliance"));
+}

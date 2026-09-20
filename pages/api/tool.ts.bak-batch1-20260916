@@ -1,0 +1,52 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { PRODUCT } from '../../lib/product'
+import { validateJsonSchema, buildDemoValidation } from '../../lib/jsonSchemaValidate'
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+
+  let inputs: Record<string, string> = {}
+  try {
+    const body = (req.body || {}) as {
+      inputs?: Record<string, string>
+      useMock?: boolean
+      plan?: 'free' | 'pro' | 'enterprise'
+    }
+    inputs = body.inputs || {}
+    const useMock = !!body.useMock
+
+    const schemaStr = (inputs['schema'] || '').trim()
+    const instanceStr = (inputs['instance'] || '').trim()
+
+    // If explicitly asking for a mock/demo, or there is no real input to
+    // validate, return a clearly-labelled DEMO (a real validation of sample
+    // data). This never pretends to be the user's result. P0: never fake AI.
+    if (useMock || (!schemaStr && !instanceStr)) {
+      return res.status(200).json({
+        result: buildDemoValidation(),
+        demo: true,
+        mock: true,
+        source: 'Demo',
+      })
+    }
+
+    // === DEFAULT: deterministic, honest JSON-Schema validation ===
+    // No AI key required. This is the product's core behaviour.
+    const validation = validateJsonSchema(schemaStr, instanceStr)
+    return res.status(200).json({
+      result: validation.text,
+      demo: false,
+      mock: false,
+      source: 'Validator',
+      valid: validation.valid,
+      errorCount: validation.errors.length,
+    })
+  } catch (e: any) {
+    return res.status(502).json({
+      error: 'Validation failed: ' + (e?.message || 'unknown error'),
+      code: 'VALIDATION_FAILED',
+      demo: false,
+      mock: false,
+    })
+  }
+}

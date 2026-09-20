@@ -1,0 +1,119 @@
+import React from 'react'
+import Head from 'next/head'
+import Layout from '../components/Layout'
+import { PRODUCT } from '../lib/product'
+
+import { buildFaqJsonLd, buildHowToJsonLd } from '../lib/schema'
+const posts = [
+  {
+    slug: "what-is-a-json-schema",
+    title: "What is a JSON Schema?",
+    type: "Definitional \u00b7 FAQPage",
+    query: "what is a json schema",
+    body: "A JSON Schema is a JSON document that declares the expected shape of other JSON: types, required properties, formats, ranges, and nested structure. SchemaSafe checks an instance against that contract and reports each mismatch with a JSON-pointer path.",
+    refs: ["https://json-schema.org/draft/2020-12/json-schema-core", "https://spec.openapis.org/oas/v3.1", "https://www.rfc-editor.org/rfc/rfc8259"],
+  },
+  {
+    slug: "how-to-validate-a-webhook-payload",
+    title: "How to validate a webhook payload",
+    type: "How-to \u00b7 HowTo",
+    query: "how to validate webhook payload json schema",
+    body: "Define a schema for the event your provider sends, then validate each inbound body before you trust it. Reject payloads that fail required fields or types, and log the JSON-pointer of the first error for fast debugging.",
+    refs: ["https://json-schema.org/draft/2020-12/json-schema-validation", "https://spec.openapis.org/oas/v3.1", "https://www.rfc-editor.org/rfc/rfc8259"],
+  },
+  {
+    slug: "json-schema-vs-typescript-types",
+    title: "JSON Schema vs TypeScript types",
+    type: "Definitional",
+    query: "json schema vs typescript types",
+    body: "TypeScript types guard data at compile time, inside your app. JSON Schema guards data at runtime, at the boundary — API requests, config files, webhooks. Use both: types for internal code, schema for untrusted input.",
+    refs: ["https://json-schema.org/draft/2020-12/json-schema-core", "https://www.typescriptlang.org/docs", "https://www.rfc-editor.org/rfc/rfc8259"],
+  },
+]
+
+
+const faqs = [
+  {
+    "question": "What is a JSON Schema?",
+    "answer": "A JSON Schema declares the expected shape of JSON — types, required fields, formats, ranges. SchemaSafe validates an instance against it and reports each mismatch with a path."
+  },
+  {
+    "question": "How do I validate a webhook payload?",
+    "answer": "Define a schema for the event, then validate each inbound body before trusting it. Reject payloads that fail required fields or types and log the JSON-pointer of the first error."
+  },
+  {
+    "question": "JSON Schema vs TypeScript types?",
+    "answer": "TypeScript types guard data at compile time inside your app; JSON Schema guards untrusted input at runtime, at the boundary. Use both."
+  }
+] as { question: string; answer: string }[]
+
+const howToBlocks = [
+  {
+    "name": "How to validate a webhook payload",
+    "steps": [
+      {
+        "name": "Overview",
+        "text": "Define a schema for the event your provider sends, then validate each inbound body before you trust it. Reject payloads that fail required fields or types."
+      }
+    ]
+  }
+] as { name: string; steps: { name: string; text: string }[] }[]
+
+export default function BlogPage() {
+  return (
+    <Layout>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqJsonLd(faqs)) }}
+        />
+        {howToBlocks.map((block, i) => (
+          <script
+            key={`howto-${i}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(buildHowToJsonLd(block.name, block.steps)),
+            }}
+          />
+        ))}
+
+        {posts.map((p, i) => (
+          <script
+            key={`article-${i}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: p.title,
+                description: p.body,
+                inLanguage: "en",
+              }),
+            }}
+          />
+        ))}
+
+        <title>{`${PRODUCT.name} — Blog`}</title>
+        <meta name="description" content={`Definitional and how-to posts from ${PRODUCT.name}.`} />
+      </Head>
+      <div className="max-w-3xl">
+        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Blog · GEO</div>
+        <h1 className="text-4xl font-extrabold tracking-tight mb-4">Guides &amp; definitions</h1>
+        <p className="text-lg text-slate-600 mb-10">Own the definitional queries that AI answer engines cite.</p>
+
+        <div className="space-y-8">
+          {posts.map((p) => (
+            <article key={p.slug} className="border-b border-slate-200 pb-8">
+              <div className="text-xs font-semibold text-indigo-600 mb-1">{p.type}</div>
+              <h2 className="text-2xl font-bold mb-2 text-slate-900">{p.title}</h2>
+              <p className="text-sm text-slate-600 mb-2"><span className="font-semibold">Target query:</span> {p.query}</p>
+              <p className="text-slate-700 leading-relaxed">{p.body}</p>
+              <p className="text-xs text-slate-400 mt-3">refs: {p.refs.join(' · ')}</p>
+            </article>
+          ))}
+        </div>
+        <p className="text-xs text-slate-400 mt-8">Publish + syndicate per gtm-launch. Each post carries 3 authoritative refs.</p>
+      </div>
+    </Layout>
+  )
+}

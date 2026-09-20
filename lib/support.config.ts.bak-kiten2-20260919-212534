@@ -1,0 +1,12 @@
+import { KB } from "./agent/kb";
+import type { SupportConfig } from "./support-kit/types";
+
+export const SUPPORT: SupportConfig = {
+  productSlug: "schemasafe",
+  productName: "SchemaSafe",
+  feedbackEmail: process.env.FEEDBACK_TO_EMAIL || "lixingliangsy@163.com",
+  kb: KB,
+  chatHost: process.env.APP_URL || "https://schemasafe.example.com",
+  brandColor: "#0891B2",
+  complianceDisclaimer: "本助手基于产品知识库回答 JSON Schema 校验相关问题，不构成法律或专业意见。诚实护栏：SchemaSafe 仅报告数据是否符合你声明的 schema，不保证 schema 本身正确，也不自动修复数据。",
+};
